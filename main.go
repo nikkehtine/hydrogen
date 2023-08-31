@@ -107,7 +107,10 @@ func main() {
 	}
 
 	var tokens []Token = tokenize(string(data))
-	fmt.Println(tokensToAsm(tokens))
+	{
+		err := os.WriteFile("out.asm", []byte(tokensToAsm(tokens)), 0644)
+		check(err)
+	}
 
 	os.Exit(0)
 }
