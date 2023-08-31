@@ -9,6 +9,7 @@ func main() {
 	// Check if any arguments were passed
 	if len(os.Args) == 1 {
 		fmt.Println("No arguments passed")
+		fmt.Println("Usage: hydro <filename>.hyd")
 		os.Exit(1)
 	}
 
