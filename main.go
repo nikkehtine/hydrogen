@@ -39,7 +39,13 @@ func main() {
 	arguments := os.Args[1:]
 
 	data, err := os.ReadFile(arguments[0])
-	check(err)
+	if os.IsNotExist(err) {
+		fmt.Printf("%s: File does not exist\n", arguments[0])
+		os.Exit(1)
+	} else {
+		check(err)
+	}
+
 	fmt.Print(string(data))
 
 	tokenize(string(data))
