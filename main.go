@@ -5,6 +5,29 @@ import (
 	"os"
 )
 
+type TokenType int
+
+const (
+	illegal TokenType = iota
+	eof
+	white
+	returns
+	int_lit
+	semi
+)
+
+type Token struct {
+	Type  TokenType
+	Value *string
+}
+
+func tokenize(data string) {
+	for i := 0; i < len(data); i++ {
+		var c rune = rune(data[i])
+		fmt.Printf("%d: %c\n", i, c)
+	}
+}
+
 func main() {
 	// Check if any arguments were passed
 	if len(os.Args) == 1 {
@@ -18,6 +41,8 @@ func main() {
 	data, err := os.ReadFile(arguments[0])
 	check(err)
 	fmt.Print(string(data))
+
+	tokenize(string(data))
 
 	os.Exit(0)
 }
