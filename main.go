@@ -70,7 +70,7 @@ func tokenize(data string) []Token {
 }
 
 func tokensToAsm(tokens []Token) string {
-	var output string = "global _start\nstart:\n"
+	var output string = "global _start\n_start:\n"
 
 	for i, token := range tokens {
 		if token.Type == TokenType(returns) {
