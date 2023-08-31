@@ -46,8 +46,6 @@ func main() {
 		check(err)
 	}
 
-	fmt.Print(string(data))
-
 	tokenize(string(data))
 
 	os.Exit(0)
