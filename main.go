@@ -69,6 +69,25 @@ func tokenize(data string) []Token {
 	return tokens
 }
 
+func tokensToAsm(tokens []Token) string {
+	var output string = "global _start\nstart:\n"
+
+	for i, token := range tokens {
+		if token.Type == TokenType(returns) {
+			if i+1 < len(tokens) && tokens[i+1].Type == TokenType(int_lit) {
+				if i+2 < len(tokens) && tokens[i+2].Type == TokenType(semi) {
+					// output += fmt.Sprintf("ret %s\n", tokens[i+1].Value)
+					output += fmt.Sprintf("    mov rax, 60\n")
+					output += fmt.Sprintf("    mov rdi, %s\n", tokens[i+1].Value)
+					output += fmt.Sprintf("    syscall\n")
+				}
+			}
+		}
+	}
+
+	return output
+}
+
 func main() {
 	// Check if any arguments were passed
 	if len(os.Args) == 1 {
@@ -87,7 +106,8 @@ func main() {
 		check(err)
 	}
 
-	tokenize(string(data))
+	var tokens []Token = tokenize(string(data))
+	fmt.Println(tokensToAsm(tokens))
 
 	os.Exit(0)
 }
