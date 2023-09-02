@@ -1,6 +1,6 @@
 # Hydrogen compiler
 
-Compiler in Go following a tutorial by [Pixeled](https://www.youtube.com/@pixeled-yt) - [Creating a Compiler](https://www.youtube.com/playlist?list=PLUDlas_Zy_qC7c5tCgTMYq2idyyT241qs) (originally in C++)
+Compiler in Go following a tutorial by [@orosmatthew](https://github.com/orosmatthew) - [Creating a Compiler](https://www.youtube.com/playlist?list=PLUDlas_Zy_qC7c5tCgTMYq2idyyT241qs) (originally in C++)
 
 [Link to original project repo](https://github.com/orosmatthew/hydrogen-cpp)
 
