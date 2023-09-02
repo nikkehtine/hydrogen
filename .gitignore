@@ -6,6 +6,7 @@
 *.dylib
 
 # Generated output and object files
+*.asm
 *.o
 *.obj
 *.out
