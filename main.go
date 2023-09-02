@@ -41,7 +41,7 @@ func tokenize(data string) []Token {
 			}
 			i--
 
-			if strBuf.String() == "return" {
+			if strBuf.String() == "exit" {
 				tokens = append(tokens, Token{Type: exit})
 				strBuf.Reset()
 			} else {
