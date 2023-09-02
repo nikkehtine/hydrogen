@@ -4,7 +4,7 @@ Compiler in Go following a tutorial by [@orosmatthew](https://github.com/orosmat
 
 [Link to original project repo](https://github.com/orosmatthew/hydrogen-cpp)
 
-This repository is hosted mainly on [GitLab](https://gitlab.com/nikkehtine/hydrogen) with a [GitHub mirror](https://github.com/nikkehtine/hydrogen) - any contribution on GitHub (aside from issues) will most likely be ignored as I don't know how to make both repositories work together. I would appreciate contribution on GitLab instead.
+ > This repository is hosted mainly on [GitLab](https://gitlab.com/nikkehtine/hydrogen) with a [GitHub mirror](https://github.com/nikkehtine/hydrogen) - any contribution on GitHub (aside from issues) will most likely be ignored as I don't know how to make both repositories work together. I would appreciate contribution on GitLab instead.
 
 ## Usage
 
