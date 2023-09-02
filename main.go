@@ -11,7 +11,7 @@ type TokenType int
 
 const (
 	eof TokenType = iota
-	returns
+	exit
 	int_lit
 	semi
 )
@@ -42,7 +42,7 @@ func tokenize(data string) []Token {
 			i--
 
 			if strBuf.String() == "return" {
-				tokens = append(tokens, Token{Type: returns})
+				tokens = append(tokens, Token{Type: exit})
 				strBuf.Reset()
 			} else {
 				fmt.Printf("%s: No such keyword\n", strBuf.String())
@@ -73,7 +73,7 @@ func tokensToAsm(tokens []Token) string {
 	var output string = "global _start\n_start:\n"
 
 	for i, token := range tokens {
-		if token.Type == TokenType(returns) {
+		if token.Type == TokenType(exit) {
 			if i+1 < len(tokens) && tokens[i+1].Type == TokenType(int_lit) {
 				if i+2 < len(tokens) && tokens[i+2].Type == TokenType(semi) {
 					// output += fmt.Sprintf("ret %s\n", tokens[i+1].Value)
