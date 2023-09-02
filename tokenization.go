@@ -29,67 +29,72 @@ type Tokenizer struct {
 
 // Private methods
 
-// Peek at the next character(s). By default peeks one character
-func (Tokenizer Tokenizer) peek(ahead int) rune {
-	if ahead == 0 {
-		ahead = 1
+// Peek at the next character(s). Accepts only one argument and ignores the rest. By default peeks one character
+func (Tokenizer Tokenizer) peek(args ...int) rune {
+	ahead := 1
+	if args != nil {
+		ahead = args[0]
 	}
+	// Check if we've reached the end
 	if Tokenizer.index+ahead >= len(Tokenizer.src) {
-		return '\x00'
+		return '\x00' // Null rune
+	} else {
+		return rune(Tokenizer.src[Tokenizer.index])
 	}
-	return rune(Tokenizer.src[Tokenizer.index])
 }
 
+// Consume and return a character
 func (Tokenizer Tokenizer) consume() rune {
-	return rune(Tokenizer.src[Tokenizer.index+1])
+	char := rune(Tokenizer.src[Tokenizer.index])
+	Tokenizer.index++
+	return char
 }
 
 // Public methods
 
-func (tokenizer Tokenizer) Tokenize() []Token {
+func (Tokenizer Tokenizer) Tokenize() []Token {
 	var tokens []Token
+	var buf bytes.Buffer
 
-	var strBuf bytes.Buffer
-	for i := 0; i < len(data); i++ {
-		var c rune = rune(data[i])
+	for Tokenizer.peek() != '\x00' {
+		if unicode.IsLetter(Tokenizer.peek()) {
+			buf.WriteRune(Tokenizer.consume())
 
-		// fmt.Printf("%d: %c\n", i, c)
-
-		if unicode.IsLetter(c) {
-			strBuf.WriteRune(c)
-			i++
-
-			for unicode.IsLetter(rune(data[i])) {
-				c = rune(data[i])
-				strBuf.WriteRune(c)
-				i++
+			for Tokenizer.peek() != '\x00' && isAlNum(Tokenizer.peek()) {
+				buf.WriteRune(Tokenizer.consume())
 			}
-			i--
-
-			if strBuf.String() == "exit" {
+			if buf.String() == "exit" {
 				tokens = append(tokens, Token{Type: exit})
-				strBuf.Reset()
+				buf.Reset()
+				continue
 			} else {
-				fmt.Printf("%s: No such keyword\n", strBuf.String())
+				fmt.Printf("%s: No such keyword\n", buf.String())
 				os.Exit(1)
 			}
-		} else if unicode.IsDigit(c) {
-			strBuf.WriteRune(c)
-			i++
-			for unicode.IsDigit(rune(data[i])) {
-				strBuf.WriteRune(rune(data[i]))
-				i++
+		} else if unicode.IsDigit(Tokenizer.peek()) {
+			buf.WriteRune(Tokenizer.consume())
+
+			for Tokenizer.peek() != '\x00' && unicode.IsDigit(Tokenizer.peek()) {
+				buf.WriteRune(Tokenizer.consume())
 			}
-			i--
-			tokens = append(tokens, Token{Type: int_lit, Value: strBuf.String()})
-		} else if unicode.IsSpace(c) {
+			tokens = append(tokens, Token{Type: int_lit, Value: buf.String()})
+			buf.Reset()
 			continue
-		} else if c == rune(';') {
+		} else if Tokenizer.peek() == ';' {
 			tokens = append(tokens, Token{Type: semi})
+			continue
+		} else if unicode.IsSpace(Tokenizer.peek()) {
+			continue
 		} else {
-			fmt.Println("Ya dun goofed")
+			fmt.Printf("%c: Invalid character\n", Tokenizer.peek())
 			os.Exit(1)
 		}
 	}
+	Tokenizer.index = 0
 	return tokens
+}
+
+// Checks if the given rune is alphanumeric
+func isAlNum(c rune) bool {
+	return unicode.IsLetter(c) || unicode.IsDigit(c)
 }
