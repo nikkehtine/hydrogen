@@ -23,14 +23,13 @@ type Token struct {
 
 type Tokenizer struct {
 	src   string
-	char  rune
 	index int
 }
 
 // Private methods
 
 // Peek at the next character(s). Accepts only one argument and ignores the rest. By default peeks one character
-func (Tokenizer Tokenizer) peek(args ...int) rune {
+func (Tokenizer *Tokenizer) peek(args ...int) rune {
 	ahead := 1
 	if args != nil {
 		ahead = args[0]
@@ -44,7 +43,7 @@ func (Tokenizer Tokenizer) peek(args ...int) rune {
 }
 
 // Consume and return a character
-func (Tokenizer Tokenizer) consume() rune {
+func (Tokenizer *Tokenizer) consume() rune {
 	char := rune(Tokenizer.src[Tokenizer.index])
 	Tokenizer.index++
 	return char
@@ -52,7 +51,7 @@ func (Tokenizer Tokenizer) consume() rune {
 
 // Public methods
 
-func (Tokenizer Tokenizer) Tokenize() []Token {
+func (Tokenizer *Tokenizer) Tokenize() []Token {
 	var tokens []Token
 	var buf bytes.Buffer
 
@@ -81,9 +80,11 @@ func (Tokenizer Tokenizer) Tokenize() []Token {
 			buf.Reset()
 			continue
 		} else if Tokenizer.peek() == ';' {
+			_ = Tokenizer.consume()
 			tokens = append(tokens, Token{Type: semi})
 			continue
 		} else if unicode.IsSpace(Tokenizer.peek()) {
+			_ = Tokenizer.consume()
 			continue
 		} else {
 			fmt.Printf("%c: Invalid character\n", Tokenizer.peek())

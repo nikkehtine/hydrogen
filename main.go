@@ -46,7 +46,9 @@ func main() {
 		check(err)
 	}
 
-	var tokens []Token = tokenize(string(data))
+	tokenizer := Tokenizer{src: string(data), index: 0}
+
+	var tokens []Token = tokenizer.Tokenize()
 	{
 		err := os.WriteFile("out.asm", []byte(tokensToAsm(tokens)), 0644)
 		check(err)
