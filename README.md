@@ -45,6 +45,11 @@ ld -o out<.exe> out.o<bj> # .o on Linux, .obj on Windows
 - I've learned how compilers work (things such as tokenizer, lexer, outputting to assembly, linking)
 - I've learned how to turn code into tokens, and then translate tokens into different code
 - I've learned how programs operate on low level and communicate with the operating system
+- I've learned more advanced concepts about programming and the Go language, such as buffers, enums, operations on files, accepting cli arguments
+- I hope to learn the differences in the way OSes (Windows, macOS, Linux) communicate with programs
+- I hope to learn more on how certain operations and language features work on a lower level
+- I hope to learn more advanced concepts about programming
+- I want to be able to brag about having written my own compiler :)
 
 ## Useful resources
 
@@ -57,3 +62,7 @@ ld -o out<.exe> out.o<bj> # .o on Linux, .obj on Windows
 - [Go by Example](https://gobyexample.com)
   - [Command-line arguments](https://gobyexample.com/command-line-arguments)
   - [Reading files](https://gobyexample.com/reading-files)
+
+## Contact
+
+Shoot me a DM on Mastodon: [@nikkehtine@im-in.space](https://im-in.space/@nikkehtine)
