@@ -5,25 +5,6 @@ import (
 	"os"
 )
 
-func tokensToAsm(tokens []Token) string {
-	var output string = "global _start\n_start:\n"
-
-	for i, token := range tokens {
-		if token.Type == TokenType(exit) {
-			if i+1 < len(tokens) && tokens[i+1].Type == TokenType(int_lit) {
-				if i+2 < len(tokens) && tokens[i+2].Type == TokenType(semi) {
-					// output += fmt.Sprintf("ret %s\n", tokens[i+1].Value)
-					output += fmt.Sprintf("    mov rax, 60\n")
-					output += fmt.Sprintf("    mov rdi, %s\n", tokens[i+1].Value)
-					output += fmt.Sprintf("    syscall\n")
-				}
-			}
-		}
-	}
-
-	return output
-}
-
 func main() {
 	// Check if any arguments were passed
 	if len(os.Args) == 1 {
@@ -43,10 +24,12 @@ func main() {
 	}
 
 	tokenizer := Tokenizer{src: string(data), index: 0}
-
-	var tokens []Token = tokenizer.Tokenize()
+	parser := Parser{tokens: tokenizer.Tokenize()}
+	tree, err := parser.Parse()
+	check(err)
+	generator := Generator{root: &tree}
 	{
-		err := os.WriteFile("out.asm", []byte(tokensToAsm(tokens)), 0644)
+		err := os.WriteFile("out.asm", []byte(generator.Generate()), 0644)
 		check(err)
 	}
 
