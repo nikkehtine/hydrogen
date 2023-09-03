@@ -51,6 +51,7 @@ func (Tokenizer *Tokenizer) consume() rune {
 
 // Public methods
 
+// Turns source code into a slice of tokens
 func (Tokenizer *Tokenizer) Tokenize() []Token {
 	var tokens []Token
 	var buf bytes.Buffer
