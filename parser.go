@@ -25,16 +25,19 @@ func (Parser *Parser) ParseExp() NodeExpr {
 
 func (Parser *Parser) Parse() (NodeExit, error) {
 	exitNode := NodeExit{}
-	nodeExpr := Parser.ParseExp()
 	for Parser.peek().Type != eof {
 		if Parser.peek().Type == exit {
 			Parser.consume()
-			if nodeExpr != (NodeExpr{}) {
-				exitNode.expr = nodeExpr
+			parseExp := Parser.ParseExp()
+			if parseExp != (NodeExpr{}) {
+				exitNode.expr = parseExp
 			} else {
 				return NodeExit{}, errors.New("invalid expression")
 			}
-			if Parser.peek() == (Token{}) || Parser.peek().Type != semi {
+
+			if Parser.peek() != (Token{}) && Parser.peek().Type == semi {
+				Parser.consume()
+			} else {
 				return NodeExit{}, errors.New("invalid expression")
 			}
 		}
