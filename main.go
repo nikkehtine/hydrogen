@@ -5,10 +5,6 @@ import (
 	"os"
 )
 
-// func tokenize(data string) []Token {
-
-// }
-
 func tokensToAsm(tokens []Token) string {
 	var output string = "global _start\n_start:\n"
 
