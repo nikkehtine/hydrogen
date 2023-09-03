@@ -35,7 +35,7 @@ func (Tokenizer *Tokenizer) peek(args ...int) rune {
 		ahead = args[0]
 	}
 	// Check if we've reached the end
-	if Tokenizer.index+ahead >= len(Tokenizer.src) {
+	if Tokenizer.index+ahead > len(Tokenizer.src) {
 		return '\x00' // Null rune
 	} else {
 		return rune(Tokenizer.src[Tokenizer.index])
