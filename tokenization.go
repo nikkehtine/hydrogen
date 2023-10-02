@@ -30,15 +30,15 @@ type Tokenizer struct {
 
 // Peek at the next character(s). Accepts only one argument and ignores the rest. By default peeks one character
 func (Tokenizer *Tokenizer) peek(args ...int) rune {
-	ahead := 1
+	offset := 0
 	if args != nil {
-		ahead = args[0]
+		offset = args[0]
 	}
 	// Check if we've reached the end
-	if Tokenizer.index+ahead > len(Tokenizer.src) {
+	if Tokenizer.index+offset >= len(Tokenizer.src) {
 		return '\x00' // Null rune
 	} else {
-		return rune(Tokenizer.src[Tokenizer.index])
+		return rune(Tokenizer.src[Tokenizer.index+offset])
 	}
 }
 
