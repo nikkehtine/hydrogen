@@ -1,6 +1,8 @@
 package main
 
-import "errors"
+import (
+	"errors"
+)
 
 type Parser struct {
 	tokens []Token
@@ -26,7 +28,8 @@ func (Parser *Parser) ParseExp() NodeExpr {
 func (Parser *Parser) Parse() (NodeExit, error) {
 	exitNode := NodeExit{}
 	for Parser.peek().Type != eof {
-		if Parser.peek().Type == exit {
+		if Parser.peek().Type == exit && Parser.peek(1).Type == TokenType(open_paren) {
+			Parser.consume()
 			Parser.consume()
 			parseExp := Parser.ParseExp()
 			if parseExp != (NodeExpr{}) {
@@ -34,11 +37,15 @@ func (Parser *Parser) Parse() (NodeExit, error) {
 			} else {
 				return NodeExit{}, errors.New("invalid expression")
 			}
-
-			if Parser.peek() != (Token{}) && Parser.peek().Type == semi {
+			if Parser.peek() != (Token{}) && Parser.peek().Type == TokenType(close_paren) {
 				Parser.consume()
 			} else {
-				return NodeExit{}, errors.New("invalid expression")
+				return NodeExit{}, errors.New("expected `)`")
+			}
+			if Parser.peek() != (Token{}) && Parser.peek().Type == TokenType(semi) {
+				Parser.consume()
+			} else {
+				return NodeExit{}, errors.New("expected `;`")
 			}
 		}
 	}

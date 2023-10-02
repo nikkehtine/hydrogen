@@ -14,6 +14,8 @@ const (
 	exit
 	int_lit
 	semi
+	open_paren
+	close_paren
 )
 
 type Token struct {
@@ -80,6 +82,12 @@ func (Tokenizer *Tokenizer) Tokenize() []Token {
 			tokens = append(tokens, Token{Type: int_lit, Value: buf.String()})
 			buf.Reset()
 			continue
+		} else if Tokenizer.peek() == '(' {
+			Tokenizer.consume()
+			tokens = append(tokens, Token{Type: open_paren})
+		} else if Tokenizer.peek() == ')' {
+			Tokenizer.consume()
+			tokens = append(tokens, Token{Type: close_paren})
 		} else if Tokenizer.peek() == ';' {
 			_ = Tokenizer.consume()
 			tokens = append(tokens, Token{Type: semi})
