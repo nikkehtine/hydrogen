@@ -36,7 +36,7 @@ func (Tokenizer *Tokenizer) peek(args ...int) rune {
 	if args != nil {
 		offset = args[0]
 	}
-	// Check if we've reached the end
+
 	if Tokenizer.index+offset >= len(Tokenizer.src) {
 		return '\x00' // Null rune
 	} else {
@@ -89,14 +89,14 @@ func (Tokenizer *Tokenizer) Tokenize() []Token {
 			Tokenizer.consume()
 			tokens = append(tokens, Token{Type: close_paren})
 		} else if Tokenizer.peek() == ';' {
-			_ = Tokenizer.consume()
+			Tokenizer.consume()
 			tokens = append(tokens, Token{Type: semi})
 			continue
 		} else if unicode.IsSpace(Tokenizer.peek()) {
-			_ = Tokenizer.consume()
+			Tokenizer.consume()
 			continue
 		} else {
-			fmt.Printf("%c: Invalid character\n", Tokenizer.peek())
+			fmt.Printf("Invalid character: %c\n", Tokenizer.peek())
 			os.Exit(1)
 		}
 	}

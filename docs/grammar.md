@@ -1,10 +1,11 @@
 ```mermaid
 graph LR
-E["prog"] --> S(("stmt*"))
 
-S --> exit(["<i>exit</i>([expr])"])
-S --> let(["<i>let</i> ident"])
+prog --> stmt*
+stmt* --> exit(["<i>exit</i>([expr])"])
+stmt* --> let(["<i>let</i> ident = [expr]"])
 
-A["[exit]"] --> B(["exit([expr])"])
-C["[expr]"] --> D(["int_lit"])
+expr["[expr]"]
+expr --> int_lit
+expr --> ident
 ```

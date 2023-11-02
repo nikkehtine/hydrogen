@@ -27,7 +27,8 @@ func (Parser *Parser) ParseExp() NodeExpr {
 
 func (Parser *Parser) Parse() (NodeExit, error) {
 	exitNode := NodeExit{}
-	for Parser.peek().Type != eof {
+	// Equivalent of 'while (peek().has_value())'
+	for Parser.peek().Type != TokenType(eof) {
 		if Parser.peek().Type == exit && Parser.peek(1).Type == TokenType(open_paren) {
 			Parser.consume()
 			Parser.consume()
@@ -58,7 +59,7 @@ func (Parser *Parser) peek(args ...int) Token {
 	if args != nil {
 		offset = args[0]
 	}
-	// Check if we've reached the end
+
 	if Parser.index+offset >= len(Parser.tokens) {
 		return Token{Type: eof}
 	} else {
