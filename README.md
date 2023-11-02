@@ -12,40 +12,27 @@ Requirements:
 -   `nasm`
 -   `ld`
 
-**TODO**: Currently compiles for Linux
+> **Warning** Currently this program only works on Linux
 
 1. Clone the repo
 
-```bash
-git clone https://gitlab.com/nikkehtine/hydrogen.git
-```
+    ```bash
+    git clone https://github.com/nikkehtine/hydrogen.git
+    ```
 
 2. Build and run the program
 
-    There are two ways:
+    You can just use the `test.sh` script for now, which build the program, runs it, and then deletes the generated output files
 
-    1. ```bash
-       go build -o hydro<.exe> # .exe if you're on Windows
-       ./hydro<.exe> <input file>
-       ```
+    ```bash
+    ./test.sh
+    ```
 
-    2. ```bash
-       go run . <input file>
-       ```
+    This script also accepts certain commands for convenience:
 
-3. Assemble and link the compiled program
-
-```bash
-nasm -f <format> out.asm # format: elf64 for Linux, win64 for Windows
-ld -o out<.exe> out.o<bj> # .o on Linux, .obj on Windows
-```
-
-4. Then you can also check the exit code if it matches the one in your input file
-
-```bash
-./out
-echo $?
-```
+    - `compile`: just compile the program, don't run it or remove generated files
+    - `run`: compile and run the program, but don't delete any files
+    - `cleanup`: just delete any generated output files that exist
 
 ## What I've learned and want to learn
 

@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+out
 
 # Generated output and object files
 *.asm
