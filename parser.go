@@ -1,6 +1,8 @@
 package main
 
-import "errors"
+import (
+	"errors"
+)
 
 type Parser struct {
 	tokens []Token
@@ -25,8 +27,10 @@ func (Parser *Parser) ParseExp() NodeExpr {
 
 func (Parser *Parser) Parse() (NodeExit, error) {
 	exitNode := NodeExit{}
-	for Parser.peek().Type != eof {
-		if Parser.peek().Type == exit {
+	// Equivalent of 'while (peek().has_value())'
+	for Parser.peek().Type != TokenType(eof) {
+		if Parser.peek().Type == exit && Parser.peek(1).Type == TokenType(open_paren) {
+			Parser.consume()
 			Parser.consume()
 			parseExp := Parser.ParseExp()
 			if parseExp != (NodeExpr{}) {
@@ -34,11 +38,15 @@ func (Parser *Parser) Parse() (NodeExit, error) {
 			} else {
 				return NodeExit{}, errors.New("invalid expression")
 			}
-
-			if Parser.peek() != (Token{}) && Parser.peek().Type == semi {
+			if Parser.peek() != (Token{}) && Parser.peek().Type == TokenType(close_paren) {
 				Parser.consume()
 			} else {
-				return NodeExit{}, errors.New("invalid expression")
+				return NodeExit{}, errors.New("expected `)`")
+			}
+			if Parser.peek() != (Token{}) && Parser.peek().Type == TokenType(semi) {
+				Parser.consume()
+			} else {
+				return NodeExit{}, errors.New("expected `;`")
 			}
 		}
 	}
@@ -47,15 +55,15 @@ func (Parser *Parser) Parse() (NodeExit, error) {
 
 // Peek at the next token(s). Accepts only one argument and ignores the rest. By default peeks one token
 func (Parser *Parser) peek(args ...int) Token {
-	ahead := 1
+	offset := 0
 	if args != nil {
-		ahead = args[0]
+		offset = args[0]
 	}
-	// Check if we've reached the end
-	if Parser.index+ahead > len(Parser.tokens) {
+
+	if Parser.index+offset >= len(Parser.tokens) {
 		return Token{Type: eof}
 	} else {
-		return Parser.tokens[Parser.index]
+		return Parser.tokens[Parser.index+offset]
 	}
 }
 

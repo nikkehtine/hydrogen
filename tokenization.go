@@ -14,6 +14,8 @@ const (
 	exit
 	int_lit
 	semi
+	open_paren
+	close_paren
 )
 
 type Token struct {
@@ -30,15 +32,15 @@ type Tokenizer struct {
 
 // Peek at the next character(s). Accepts only one argument and ignores the rest. By default peeks one character
 func (Tokenizer *Tokenizer) peek(args ...int) rune {
-	ahead := 1
+	offset := 0
 	if args != nil {
-		ahead = args[0]
+		offset = args[0]
 	}
-	// Check if we've reached the end
-	if Tokenizer.index+ahead > len(Tokenizer.src) {
+
+	if Tokenizer.index+offset >= len(Tokenizer.src) {
 		return '\x00' // Null rune
 	} else {
-		return rune(Tokenizer.src[Tokenizer.index])
+		return rune(Tokenizer.src[Tokenizer.index+offset])
 	}
 }
 
@@ -80,15 +82,21 @@ func (Tokenizer *Tokenizer) Tokenize() []Token {
 			tokens = append(tokens, Token{Type: int_lit, Value: buf.String()})
 			buf.Reset()
 			continue
+		} else if Tokenizer.peek() == '(' {
+			Tokenizer.consume()
+			tokens = append(tokens, Token{Type: open_paren})
+		} else if Tokenizer.peek() == ')' {
+			Tokenizer.consume()
+			tokens = append(tokens, Token{Type: close_paren})
 		} else if Tokenizer.peek() == ';' {
-			_ = Tokenizer.consume()
+			Tokenizer.consume()
 			tokens = append(tokens, Token{Type: semi})
 			continue
 		} else if unicode.IsSpace(Tokenizer.peek()) {
-			_ = Tokenizer.consume()
+			Tokenizer.consume()
 			continue
 		} else {
-			fmt.Printf("%c: Invalid character\n", Tokenizer.peek())
+			fmt.Printf("Invalid character: %c\n", Tokenizer.peek())
 			os.Exit(1)
 		}
 	}
