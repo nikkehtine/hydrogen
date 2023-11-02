@@ -2,8 +2,8 @@
 graph LR
 
 prog --> stmt*
-stmt* --> exit(["<i>exit</i>([expr])"])
-stmt* --> let(["<i>let</i> ident = [expr]"])
+stmt* --> exit(["exit([expr]);"])
+stmt* --> let(["let ident = [expr];"])
 
 expr["[expr]"]
 expr --> int_lit

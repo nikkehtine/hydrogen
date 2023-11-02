@@ -25,11 +25,11 @@ func main() {
 
 	tokenizer := Tokenizer{src: string(data), index: 0}
 	parser := Parser{tokens: tokenizer.Tokenize()}
-	tree, err := parser.Parse()
+	tree, err := parser.ParseProg()
 	check(err)
-	generator := Generator{root: &tree}
+	generator := Generator{prog: &tree}
 	{
-		err := os.WriteFile("out.asm", []byte(generator.Generate()), 0644)
+		err := os.WriteFile("out.asm", []byte(generator.GenProg()), 0644)
 		check(err)
 	}
 

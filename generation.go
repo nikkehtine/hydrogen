@@ -1,15 +1,46 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Generator struct {
-	root *NodeExit
+	prog   *NodeProg
+	output string
 }
 
-func (Generator *Generator) Generate() string {
-	var output string = "global _start\n_start:\n"
-	output += fmt.Sprintf("    mov rax, 60\n")
-	output += fmt.Sprintf("    mov rdi, %s\n", Generator.root.expr.int_lit.Value)
-	output += fmt.Sprintf("    syscall\n")
-	return output
+func (Gen *Generator) GenExpr(expr *NodeExpr) {
+	switch variant := expr.variant.(type) {
+	case NodeExprIntLit:
+		Gen.output += fmt.Sprintf(
+			"    mov rax, %s\n", variant.int_lit.value,
+		)
+		Gen.output += "    push rax\n"
+	case NodeExprIdent:
+		// TODO
+	}
+}
+
+func (Gen *Generator) GenStmt(stmt *NodeStmt) {
+	switch variant := stmt.variant.(type) {
+	case NodeStmtExit:
+		Gen.GenExpr(&variant.expr)
+		Gen.output += "    mov rax, 60\n"
+		Gen.output += "    pop rdi\n"
+		Gen.output += "    syscall\n"
+	case NodeStmtLet:
+	}
+}
+
+func (Gen *Generator) GenProg() string {
+	Gen.output += "global _start\n_start:\n"
+
+	for _, stmt := range Gen.prog.statements {
+		Gen.GenStmt(&stmt)
+	}
+
+	Gen.output += "    mov rax, 60\n"
+	Gen.output += "    mov rdi, 0\n"
+	Gen.output += "    syscall\n"
+	return Gen.output
 }
