@@ -12,7 +12,8 @@ Requirements:
 -   `nasm`
 -   `ld`
 
-> **Warning** Currently this program only works on Linux
+> [!WARNING]
+> Currently this program only works on Linux
 
 1. Clone the repo
 
