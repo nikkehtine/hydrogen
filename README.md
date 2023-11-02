@@ -37,14 +37,19 @@ Requirements:
 
 ## What I've learned and want to learn
 
--   I've learned how compilers work (things such as tokenizer, lexer, outputting to assembly, linking)
--   I've learned how to turn code into tokens, and then translate tokens into different code
--   I've learned how programs operate on low level and communicate with the operating system
--   I've learned more advanced concepts about programming and the Go language, such as buffers, enums, operations on files, accepting cli arguments
--   I hope to learn the differences in the way OSes (Windows, macOS, Linux) communicate with programs
--   I hope to learn more on how certain operations and language features work on a lower level
--   I hope to learn more advanced concepts about programming
--   I want to be able to brag about having written my own compiler :)
+I've learned:
+
+-   how compilers work (things such as tokenizer, lexer, outputting to assembly, linking)
+-   how to turn code into tokens, and then translate tokens into different code
+-   how programs operate on low level and communicate with the operating system
+-   more advanced concepts about programming and the Go language, such as buffers, enums, operations on files, accepting cli arguments
+
+I want to:
+
+-   learn the differences in the way OSes (Windows, macOS, Linux) communicate with programs
+-   learn more on how certain operations and language features work on a lower level
+-   learn more advanced concepts about programming
+-   be able to brag about having written my own compiler :)
 
 ## Useful resources
 
