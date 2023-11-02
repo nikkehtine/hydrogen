@@ -3,7 +3,7 @@
 # Commands: empty, "compile", "run", "cleanup"
 
 compile() {
-    go run . test.hyd 
+    go run . test.hy
     nasm -felf64 out.asm
     ld -o out out.o
 }
