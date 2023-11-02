@@ -23,24 +23,23 @@ case $1 in
     "")
         compile
         run
-        cleanup
         ;;
     "compile")
         compile
         ;;
-    "run")
+    "clean")
         compile
         run
+        cleanup
         ;;
     "cleanup")
         cleanup
         ;;
     *)
         echo "Available arguments:"
-        echo "no argument: compiles and runs the program,"
-        echo "then cleans up the directory"
+        echo "no argument: compiles and runs the program"
         echo "compile: compiles the program without running it"
-        echo "run: compiles and runs the program"
-        echo "cleanup: cleans up the output files"
+        echo "clean: compiles and runs the program, then deletes output files"
+        echo "cleanup: just cleans up the output files"
         exit 1
 esac

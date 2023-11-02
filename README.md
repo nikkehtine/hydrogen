@@ -23,7 +23,7 @@ Requirements:
 
 2. Build and run the program
 
-    You can just use the `test.sh` script for now, which build the program, runs it, and then deletes the generated output files
+    You can just use the `test.sh` script for now, which should build and run the program
 
     ```bash
     ./test.sh
@@ -32,7 +32,7 @@ Requirements:
     This script also accepts certain commands for convenience:
 
     - `compile`: just compile the program, don't run it or remove generated files
-    - `run`: compile and run the program, but don't delete any files
+    - `clean`: compile and run the program, but delete generated files
     - `cleanup`: just delete any generated output files that exist
 
 ## What I've learned and want to learn
