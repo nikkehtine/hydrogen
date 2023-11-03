@@ -9,7 +9,7 @@ func main() {
 	// Check if any arguments were passed
 	if len(os.Args) == 1 {
 		fmt.Println("No arguments passed")
-		fmt.Println("Usage: hydro <filename>.hyd")
+		fmt.Println("Usage: hydro <filename>.hy")
 		os.Exit(1)
 	}
 
@@ -25,20 +25,23 @@ func main() {
 
 	tokenizer := Tokenizer{src: string(data), index: 0}
 	parser := Parser{tokens: tokenizer.Tokenize()}
+
 	tree, err := parser.ParseProg()
 	check(err)
-	generator := Generator{prog: &tree}
-	{
-		err := os.WriteFile("out.asm", []byte(generator.GenProg()), 0644)
-		check(err)
-	}
 
-	os.Exit(0)
+	generator := Generator{prog: &tree}
+	generator.vars = make(map[string]Var)
+	out, err := generator.GenProg()
+	check(err)
+
+	err = os.WriteFile("out.asm", []byte(out), 0644)
+	check(err)
 }
 
 // Generalized error handling
 func check(e error) {
 	if e != nil {
-		panic(e)
+		fmt.Println(e)
+		os.Exit(1)
 	}
 }
