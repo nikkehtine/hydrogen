@@ -62,6 +62,8 @@ I want to:
 -   [Go by Example](https://gobyexample.com)
     -   [Command-line arguments](https://gobyexample.com/command-line-arguments)
     -   [Reading files](https://gobyexample.com/reading-files)
+-   [Idiomatic way in Go to represent a Tagged Union? (r/golang)](https://www.reddit.com/r/golang/comments/13hjevf/idiomatic_way_in_go_to_represent_a_tagged_union/)
+-   ["Sum/Union/Variant Type in Go" by haya14busa (Medium)](https://medium.com/@haya14busa/sum-union-variant-type-in-go-and-static-check-tool-of-switch-case-handling-3bfc61618b1e)
 
 ## Contact
 

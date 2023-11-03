@@ -14,13 +14,16 @@ const (
 	exit
 	int_lit
 	semi
+	assign
 	open_paren
 	close_paren
+	ident
+	let
 )
 
 type Token struct {
-	Type  TokenType
-	Value string
+	ttype TokenType
+	value string
 }
 
 type Tokenizer struct {
@@ -66,12 +69,17 @@ func (Tokenizer *Tokenizer) Tokenize() []Token {
 				buf.WriteRune(Tokenizer.consume())
 			}
 			if buf.String() == "exit" {
-				tokens = append(tokens, Token{Type: exit})
+				tokens = append(tokens, Token{ttype: exit})
+				buf.Reset()
+				continue
+			} else if buf.String() == "let" {
+				tokens = append(tokens, Token{ttype: let})
 				buf.Reset()
 				continue
 			} else {
-				fmt.Printf("%s: No such keyword\n", buf.String())
-				os.Exit(1)
+				tokens = append(tokens, Token{ttype: ident, value: buf.String()})
+				buf.Reset()
+				continue
 			}
 		} else if unicode.IsDigit(Tokenizer.peek()) {
 			buf.WriteRune(Tokenizer.consume())
@@ -79,18 +87,24 @@ func (Tokenizer *Tokenizer) Tokenize() []Token {
 			for Tokenizer.peek() != '\x00' && unicode.IsDigit(Tokenizer.peek()) {
 				buf.WriteRune(Tokenizer.consume())
 			}
-			tokens = append(tokens, Token{Type: int_lit, Value: buf.String()})
+			tokens = append(tokens, Token{ttype: int_lit, value: buf.String()})
 			buf.Reset()
+			continue
+		} else if Tokenizer.peek() == ';' {
+			Tokenizer.consume()
+			tokens = append(tokens, Token{ttype: semi})
+			continue
+		} else if Tokenizer.peek() == '=' {
+			Tokenizer.consume()
+			tokens = append(tokens, Token{ttype: assign})
 			continue
 		} else if Tokenizer.peek() == '(' {
 			Tokenizer.consume()
-			tokens = append(tokens, Token{Type: open_paren})
+			tokens = append(tokens, Token{ttype: open_paren})
+			continue
 		} else if Tokenizer.peek() == ')' {
 			Tokenizer.consume()
-			tokens = append(tokens, Token{Type: close_paren})
-		} else if Tokenizer.peek() == ';' {
-			Tokenizer.consume()
-			tokens = append(tokens, Token{Type: semi})
+			tokens = append(tokens, Token{ttype: close_paren})
 			continue
 		} else if unicode.IsSpace(Tokenizer.peek()) {
 			Tokenizer.consume()

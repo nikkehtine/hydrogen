@@ -10,7 +10,7 @@ compile() {
 
 run() {
     ./out
-    echo $?
+    echo "Program exit code: $?"
 }
 
 cleanup() {
